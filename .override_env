@@ -1,0 +1,11 @@
+export DEBUG=True
+export SECRET_KEY=*********
+export ALLOWED_HOSTS=['localhost',]
+export DJANGO_SETTINGS_MODULE=battle_schedule.settings
+export DATABASE_NAME=*********
+export DATABASE_USER=*********
+export DATABASE_PASSWORD=*********
+export DATABASE_HOST=localhost
+export DATABASE_PORT=5432
+export DATABASE_CONN_MAX_AGE=0
+export DATABASE_CONN_TOUT=5
