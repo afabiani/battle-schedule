@@ -9,10 +9,10 @@
     {% else %}
     <div class="card card-body day p-2 bd-highlight-{{ battle_event.type }}">
     {% endif %}
-        <p>[{{ battle_event.type }}] - {{ battle_event.territory.takeover_time }}</p>
-        <p></p>
-        <h5 class="mt-2"><strong>{{ battle_event.territory }}</strong></h5>
-        <h6 class="mt-1"><strong>{{ battle_event.alliance }}</strong></h6>
+        <span style="font-size: 16px;">{{ battle_event.territory.takeover_time }}</span>
+        <h2 class="mt-2"><strong>{{ battle_event.territory }}</strong></h2>
+        <h5 class="mt-1"><strong>{{ battle_event.alliance }}</strong></h5>
+        [{{ battle_event.type }}]
         {% if battle_event.notes %}
         <div class="day p-2 bd-highlight">
             <p class="bd-text-purple-bright">{{ battle_event.notes }}</p>
@@ -55,10 +55,10 @@
     {% else %}
     <div class="card card-body day p-2 bd-highlight-{{ battle_event.type }}">
     {% endif %}
-        <p>[{{ battle_event.type }}] - {{ battle_event.territory.takeover_time }}</p>
-        <p></p>
-        <h5 class="mt-2"><strong>{{ battle_event.territory }}</strong></h5>
-        <h6 class="mt-1"><strong>{{ battle_event.alliance }}</strong></h6>
+        <span style="font-size: 16px;">{{ battle_event.territory.takeover_time }}</span>
+        <h2 class="mt-2"><strong>{{ battle_event.territory }}</strong></h2>
+        <h5 class="mt-1"><strong>{{ battle_event.alliance }}</strong></h5>
+        [{{ battle_event.type }}]
         {% if battle_event.notes %}
         <div class="day p-2 bd-highlight">
             <p class="bd-text-purple-bright">{{ battle_event.notes }}</p>
