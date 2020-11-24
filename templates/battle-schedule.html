@@ -12,7 +12,11 @@
         <span style="font-size: 16px;">{{ battle_event.territory.takeover_time }}</span>
         <h2 class="mt-2"><strong>{{ battle_event.territory }}</strong></h2>
         <h5 class="mt-1"><strong>{{ battle_event.alliance }}</strong></h5>
+        {% if not battle_event.alliance or battle_event.alliance == "No alliance set." %}
+        [neutral]
+        {% else %}
         [{{ battle_event.type }}]
+        {% endif %}
         {% if battle_event.notes %}
         <div class="day p-2 bd-highlight">
             <p class="bd-text-purple-bright">{{ battle_event.notes }}</p>
@@ -35,7 +39,11 @@
         <span style="font-size: 16px;">{{ battle_event.territory.takeover_time }}</span>
         <h2 class="mt-2"><strong>{{ battle_event.territory }}</strong></h2>
         <h5 class="mt-1"><strong>{{ battle_event.alliance }}</strong></h5>
+        {% if not battle_event.alliance or battle_event.alliance == "No alliance set." %}
+        [neutral]
+        {% else %}
         [{{ battle_event.type }}]
+        {% endif %}
         {% if battle_event.notes %}
         <div class="day p-2 bd-highlight">
             <p class="bd-text-purple-bright">{{ battle_event.notes }}</p>
@@ -58,7 +66,11 @@
         <span style="font-size: 16px;">{{ battle_event.territory.takeover_time }}</span>
         <h2 class="mt-2"><strong>{{ battle_event.territory }}</strong></h2>
         <h5 class="mt-1"><strong>{{ battle_event.alliance }}</strong></h5>
+        {% if not battle_event.alliance or battle_event.alliance == "No alliance set." %}
+        [neutral]
+        {% else %}
         [{{ battle_event.type }}]
+        {% endif %}
         {% if battle_event.notes %}
         <div class="day p-2 bd-highlight">
             <p class="bd-text-purple-bright">{{ battle_event.notes }}</p>
