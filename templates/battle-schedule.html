@@ -1,10 +1,14 @@
 {% extends 'site_index.html' %}
 
 {% block content %}
-<h5 class="mt-2">TODAY</h5>
-<div class="calendar d-flex bd-highlight justify-content-between">
+<h4 class="mt-2 day">TODAY</h4>
+<div class="calendar d-flex flex-row flex-nowrap bd-highlight justify-content-between">
     {% for battle_event in battle_events_today %}
-    <div class="day p-2 bd-highlight-{{ battle_event.type }}">
+    {% if not battle_event.alliance or battle_event.alliance == "No alliance set." %}
+    <div class="card card-body day p-2 bd-highlight">
+    {% else %}
+    <div class="card card-body day p-2 bd-highlight-{{ battle_event.type }}">
+    {% endif %}
         <p>[{{ battle_event.type }}] - {{ battle_event.territory.takeover_time }}</p>
         <p></p>
         <h5 class="mt-2"><strong>{{ battle_event.territory }}</strong></h5>
@@ -17,11 +21,17 @@
     </div>
     {% endfor %}
 </div>
+
 <hr class="mt-0 mb-4">
-<h5 class="mt-2">TOMORROW</h5>
-<div class="d-flex bd-highlight justify-content-between">
+
+<h4 class="mt-2 day">TOMORROW</h4>
+<div class="calendar d-flex flex-row flex-nowrap bd-highlight justify-content-between">
     {% for battle_event in battle_events_tomorrow %}
-    <div class="day p-2 bd-highlight-{{ battle_event.type }}">
+    {% if not battle_event.alliance or battle_event.alliance == "No alliance set." %}
+    <div class="card card-body day p-2 bd-highlight">
+    {% else %}
+    <div class="card card-body day p-2 bd-highlight-{{ battle_event.type }}">
+    {% endif %}
         <p>[{{ battle_event.type }}] - {{ battle_event.territory.takeover_time }}</p>
         <p></p>
         <h5 class="mt-2"><strong>{{ battle_event.territory }}</strong></h5>
@@ -34,11 +44,17 @@
     </div>
     {% endfor %}
 </div>
+
 <hr class="mt-0 mb-4">
-<h5 class="mt-2">DAY AFTER TOMORROW</h5>
-<div class="d-flex bd-highlight justify-content-between">
+
+<h4 class="mt-2 day">DAY AFTER TOMORROW</h4>
+<div class="calendar d-flex flex-row flex-nowrap bd-highlight justify-content-between">
     {% for battle_event in battle_events_day_after %}
-    <div class="day p-2 bd-highlight-{{ battle_event.type }}">
+    {% if not battle_event.alliance or battle_event.alliance == "No alliance set." %}
+    <div class="card card-body day p-2 bd-highlight">
+    {% else %}
+    <div class="card card-body day p-2 bd-highlight-{{ battle_event.type }}">
+    {% endif %}
         <p>[{{ battle_event.type }}] - {{ battle_event.territory.takeover_time }}</p>
         <p></p>
         <h5 class="mt-2"><strong>{{ battle_event.territory }}</strong></h5>
@@ -51,4 +67,5 @@
     </div>
     {% endfor %}
 </div>
+
 {% endblock %}
