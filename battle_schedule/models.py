@@ -3,6 +3,7 @@
 import logging
 
 from django.db import models
+from django.db.models import signals
 
 logger = logging.getLogger(__name__)
 
@@ -50,3 +51,14 @@ class BattleEvent(models.Model):
     alliance = models.CharField(max_length=1024, blank=False, null=False, default="No alliance set.")
     type = models.CharField(max_length=255, choices=EVENT_TYPES, null=False, blank=False, default=EVENT_DEFENCE)
     notes = models.TextField(blank=True, null=True)
+
+
+def territory_post_save(instance, *args, **kwargs):
+    """
+    Used to fill the average rating field on OverallRating change.
+    """
+    if not BattleEvent.objects.filter(territory=instance).count():
+        BattleEvent.objects.create(territory=instance)
+
+
+signals.post_save.connect(territory_post_save, sender=Territory)
