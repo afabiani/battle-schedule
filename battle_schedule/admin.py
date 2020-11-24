@@ -16,6 +16,6 @@ class TerritoryAdmin(admin.ModelAdmin):
 @admin.register(BattleEvent)
 class BattleEventAdmin(admin.ModelAdmin):
 
-    list_display = ('territory', 'type', 'alliance')
+    list_display = ('territory', 'type', 'alliance', 'notes')
     list_select_related = True
     list_filter = ('territory', 'type', 'alliance')
