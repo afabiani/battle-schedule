@@ -27,16 +27,18 @@
           <div class="d-flex">
             <div class="mr-auto p-2"><h4 class="mt-2">Weekly BATTLE schedule</h4></div>
             <div class="p-2">
-                <p><em>All times are expressed in UTC</em></p>
-                <p>UTC: <span id="spUTC"></span></p>
+                <p><em>All times are expressed in GMT</em></p>
+                <p>GMT: <span id="spUTC"></span></p>
                 {% if request.user.is_superuser or request.user.is_staff %}
                 <p><em><a href="/admin">manage users & events</a></em></p>
                 {% endif %}
             </div>
           </div>
           <hr class="mt-0 mb-4">
+          <div class="scrollable" style="overflow-y: scroll;height: 100%;">
           {% block content %}
           {% endblock %}
+          </div>
         </div>
       </div>
     </div>

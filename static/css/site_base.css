@@ -1746,6 +1746,7 @@
 
 .card-body {
     min-height: 20px;
-    min-width: 150px;
+    min-width: 200px;
+    width: 200px;
     margin-right: 1px;
 }
