@@ -47,6 +47,6 @@ class BattleEvent(models.Model):
     )
 
     territory = models.ForeignKey(Territory, on_delete=models.CASCADE)
-    alliance = models.CharField(max_length=1024, blank=False, null=False)
-    type = models.CharField(max_length=255, choices=EVENT_TYPES, null=False, blank=False)
+    alliance = models.CharField(max_length=1024, blank=False, null=False, default="No alliance set.")
+    type = models.CharField(max_length=255, choices=EVENT_TYPES, null=False, blank=False, default=EVENT_DEFENCE)
     notes = models.TextField(blank=True, null=True)
