@@ -17,6 +17,6 @@ class BattleEvent(models.Model):
     )
 
     time = models.DateTimeField(db_index=True, null=False)
-    system = models.CharField(max_length=1024, blank=False, null=False)
+    territory = models.CharField(max_length=1024, blank=False, null=False)
     alliance = models.CharField(max_length=1024, blank=False, null=False)
     type = models.CharField(max_length=255, choices=EVENT_TYPES, null=False, blank=False)

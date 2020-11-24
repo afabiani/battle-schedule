@@ -8,6 +8,6 @@ from .models import BattleEvent
 @admin.register(BattleEvent)
 class BattleEventAdmin(admin.ModelAdmin):
 
-    list_display = ('time', 'type', 'system', 'alliance')
+    list_display = ('time', 'type', 'territory', 'alliance')
     list_select_related = True
-    list_filter = ('time', 'type', 'system', 'alliance')
+    list_filter = ('time', 'type', 'territory', 'alliance')
