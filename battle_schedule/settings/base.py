@@ -43,10 +43,20 @@ except ValueError:
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+
+    # login with external providers
+    'guardian',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    'battle_schedule'
 ]
 
 MIDDLEWARE = [
@@ -115,6 +125,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'guardian.backends.ObjectPermissionBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# Login and logout urls override
+LOGIN_URL = os.getenv('LOGIN_URL', '/account/login/')
+LOGOUT_URL = os.getenv('LOGOUT_URL', '/account/logout/')
+
+ACCOUNT_LOGIN_REDIRECT_URL = os.getenv('LOGIN_REDIRECT_URL', '/')
+ACCOUNT_LOGOUT_REDIRECT_URL = os.getenv('LOGOUT_REDIRECT_URL', '/')
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -136,7 +158,7 @@ STATIC_ROOT = os.getenv('STATIC_ROOT', os.path.join(BASE_DIR, 'static_root'))
 STATIC_URL = '/static/'
 # Additional directories which hold static files
 _DEFAULT_STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, STATIC_URL),
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 STATICFILES_DIRS = os.getenv('STATICFILES_DIRS', _DEFAULT_STATICFILES_DIRS)
@@ -148,3 +170,5 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

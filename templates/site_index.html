@@ -1,1 +1,31 @@
-INIT
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/site_base.css">
+    <link rel="stylesheet" href="/static/css/calendar.css">
+    <title>Weekly BATTLE schedule</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row justify-content">
+        <div class="col-12">
+          <div class="d-flex">
+            <div class="mr-auto p-2"><h4 class="mt-2">Weekly BATTLE schedule</h4></div>
+            <div class="p-2">
+                <p><em>All times are expressed in UTM</em></p>
+                {% if request.user.is_superuser %}
+                <p><em><a href="/admin">manage users & events</a></em></p>
+                {% endif %}
+            </div>
+          </div>
+          <hr class="mt-0 mb-4">
+          {% block content %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

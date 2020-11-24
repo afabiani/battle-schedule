@@ -1,0 +1,31 @@
+{% extends "site_index.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Log in" %}{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h2>{% trans "Log in to an existing account" %}</h2>
+  </div>
+
+<div class="row">
+  <div class="col-md-8">
+
+    {% get_providers as socialaccount_providers %}
+
+    <form role="form" method="POST" action="{% url 'account_login' %}" autocapitalize="off" {% if form.is_multipart %} enctype="multipart/form-data"{% endif %}>
+      {% csrf_token %}
+      {{ form|crispy  }}
+      {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+
+      <button class="btn btn-primary" type="submit">{% trans "Sign In" %}</button>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}
