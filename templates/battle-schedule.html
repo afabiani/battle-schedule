@@ -5,10 +5,10 @@
 <div class="calendar d-flex bd-highlight justify-content-between">
     {% for battle_event in battle_events_today %}
     <div class="day p-2 bd-highlight-{{ battle_event.type }}">
-        <p>[{{ battle_event.type }}] - {{ battle_event.time }}</p>
+        <p>[{{ battle_event.type }}] - {{ battle_event.territory.takeover_time }}</p>
         <p></p>
-        <h5 class="mt-2">System:  <strong>{{ battle_event.system }}</strong></h5>
-        <h6 class="mt-1">Alliance:  <strong>{{ battle_event.alliance }}</strong></h6>
+        <h5 class="mt-2"><strong>{{ battle_event.territory }}</strong></h5>
+        <h6 class="mt-1"><strong>{{ battle_event.alliance }}</strong></h6>
     </div>
     {% endfor %}
 </div>
@@ -17,10 +17,10 @@
 <div class="d-flex bd-highlight justify-content-between">
     {% for battle_event in battle_events_tomorrow %}
     <div class="day p-2 bd-highlight-{{ battle_event.type }}">
-        <p>[{{ battle_event.type }}] - {{ battle_event.time }}</p>
+        <p>[{{ battle_event.type }}] - {{ battle_event.territory.takeover_time }}</p>
         <p></p>
-        <h5 class="mt-2">System:  <strong>{{ battle_event.system }}</strong></h5>
-        <h6 class="mt-1">Alliance:  <strong>{{ battle_event.alliance }}</strong></h6>
+        <h5 class="mt-2"><strong>{{ battle_event.territory }}</strong></h5>
+        <h6 class="mt-1"><strong>{{ battle_event.alliance }}</strong></h6>
     </div>
     {% endfor %}
 </div>
@@ -29,10 +29,10 @@
 <div class="d-flex bd-highlight justify-content-between">
     {% for battle_event in battle_events_day_after %}
     <div class="day p-2 bd-highlight-{{ battle_event.type }}">
-        <p>[{{ battle_event.type }}] - {{ battle_event.time }}</p>
+        <p>[{{ battle_event.type }}] - {{ battle_event.territory.takeover_time }}</p>
         <p></p>
-        <h5 class="mt-2">System:  <strong>{{ battle_event.system }}</strong></h5>
-        <h6 class="mt-1">Alliance:  <strong>{{ battle_event.alliance }}</strong></h6>
+        <h5 class="mt-2"><strong>{{ battle_event.territory }}</strong></h5>
+        <h6 class="mt-1"><strong>{{ battle_event.alliance }}</strong></h6>
     </div>
     {% endfor %}
 </div>

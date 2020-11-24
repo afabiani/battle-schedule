@@ -10,18 +10,21 @@ from .models import BattleEvent
 
 @login_required
 def battle_schedule(request, template='battle-schedule.html'):
-    today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
-    today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
+    today = (datetime.datetime.today().weekday() + 2) % 7
+    tomorrow = (today + 1) % 7
+    if tomorrow == 0:
+        tomorrow = 1
+    day_after = (today + 2) % 7
+    if day_after == 0:
+        day_after = 1
 
-    tomorrow_min = datetime.datetime.combine(datetime.date.today() + datetime.timedelta(days=1), datetime.time.min)
-    tomorrow_max = datetime.datetime.combine(datetime.date.today() + datetime.timedelta(days=1), datetime.time.max)
-
-    day_after_min = datetime.datetime.combine(datetime.date.today() + datetime.timedelta(days=2), datetime.time.min)
-    day_after_max = datetime.datetime.combine(datetime.date.today() + datetime.timedelta(days=2), datetime.time.max)
-
-    battle_events_today = BattleEvent.objects.filter(time__range=(today_min, today_max)).order_by('time')
-    battle_events_tomorrow = BattleEvent.objects.filter(time__range=(tomorrow_min, tomorrow_max)).order_by('time')
-    battle_events_day_after = BattleEvent.objects.filter(time__range=(day_after_min, day_after_max)).order_by('time')
+    print(f" today: {today} - tomorrow: {tomorrow} - day_after: {day_after}")
+    battle_events_today = BattleEvent.objects.filter(
+        territory__takeover_day=today).order_by('territory__takeover_time')
+    battle_events_tomorrow = BattleEvent.objects.filter(
+        territory__takeover_day=tomorrow).order_by('territory__takeover_time')
+    battle_events_day_after = BattleEvent.objects.filter(
+        territory__takeover_day=day_after).order_by('territory__takeover_time')
     ctx = {
         'battle_events_today': battle_events_today,
         'battle_events_tomorrow': battle_events_tomorrow,
