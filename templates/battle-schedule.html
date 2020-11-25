@@ -2,7 +2,7 @@
 
 {% block content %}
 <h4 class="mt-2 day" style="text-align: left;font-size: 16px;">TODAY</h4>
-<div class="calendar d-flex flex-row flex-nowrap bd-highlight justify-content-between">
+<div class="calendar d-flex flex-row flex-wrap bd-highlight justify-content-between">
     {% for battle_event in battle_events_today %}
     {% if not battle_event.alliance or battle_event.alliance == "No alliance set." %}
     <div class="card card-body day p-2 bd-highlight">
@@ -29,7 +29,7 @@
 <hr class="mt-0 mb-4">
 
 <h4 class="mt-2 day" style="text-align: left;font-size: 16px;">TOMORROW</h4>
-<div class="calendar d-flex flex-row flex-nowrap bd-highlight justify-content-between">
+<div class="calendar d-flex flex-row flex-wrap bd-highlight justify-content-between">
     {% for battle_event in battle_events_tomorrow %}
     {% if not battle_event.alliance or battle_event.alliance == "No alliance set." %}
     <div class="card card-body day p-2 bd-highlight">
@@ -56,7 +56,7 @@
 <hr class="mt-0 mb-4">
 
 <h4 class="mt-2 day" style="text-align: left;font-size: 16px;">DAY AFTER TOMORROW</h4>
-<div class="calendar d-flex flex-row flex-nowrap bd-highlight justify-content-between">
+<div class="calendar d-flex flex-row flex-wrap bd-highlight justify-content-between">
     {% for battle_event in battle_events_day_after %}
     {% if not battle_event.alliance or battle_event.alliance == "No alliance set." %}
     <div class="card card-body day p-2 bd-highlight">

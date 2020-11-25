@@ -40,16 +40,18 @@ class Territory(models.Model):
 
 class BattleEvent(models.Model):
 
+    EVENT_NEUTRAL = 'neutral'
     EVENT_CAPTURE = 'capture'
     EVENT_DEFENCE = 'defence'
     EVENT_TYPES = (
+        (EVENT_NEUTRAL, "Neutral"),
         (EVENT_CAPTURE, "Capture"),
         (EVENT_DEFENCE, "Defence")
     )
 
     territory = models.ForeignKey(Territory, on_delete=models.CASCADE)
     alliance = models.CharField(max_length=1024, blank=False, null=False, default="No alliance set.")
-    type = models.CharField(max_length=255, choices=EVENT_TYPES, null=False, blank=False, default=EVENT_DEFENCE)
+    type = models.CharField(max_length=255, choices=EVENT_TYPES, null=False, blank=False, default=EVENT_NEUTRAL)
     notes = models.TextField(blank=True, null=True)
 
 
