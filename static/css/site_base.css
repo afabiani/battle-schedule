@@ -565,6 +565,11 @@
     border: 1px solid rgba(86, 61, 124, 0.15);
 }
 
+.bd-highlight-lvl {
+    background-color: rgba(255, 178, 102, 0.15);
+    border: 1px solid rgba(86, 61, 124, 0.15);
+}
+
 .example-container {
     width: 800px;
     width: 100%;

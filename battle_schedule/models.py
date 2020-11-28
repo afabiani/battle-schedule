@@ -43,10 +43,12 @@ class BattleEvent(models.Model):
     EVENT_NEUTRAL = 'neutral'
     EVENT_CAPTURE = 'capture'
     EVENT_DEFENCE = 'defence'
+    EVENT_LEVEL_1 = 'lvl 1 all can capture'
     EVENT_TYPES = (
         (EVENT_NEUTRAL, "Neutral"),
         (EVENT_CAPTURE, "Capture"),
-        (EVENT_DEFENCE, "Defence")
+        (EVENT_DEFENCE, "Defence"),
+        (EVENT_LEVEL_1, "Lvl 1 All can capture")
     )
 
     territory = models.ForeignKey(Territory, on_delete=models.CASCADE)

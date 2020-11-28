@@ -17,6 +17,7 @@ def battle_schedule(request, template='battle-schedule.html'):
     day_after = (today + 2) % 7
     if day_after == 0:
         day_after = 1
+    today = 7 if today == 0 else today
 
     print(f" today: {today} - tomorrow: {tomorrow} - day_after: {day_after}")
     battle_events_today = BattleEvent.objects.filter(
