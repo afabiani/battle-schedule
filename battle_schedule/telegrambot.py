@@ -112,7 +112,6 @@ def callback_alarm(bot, job):
     # logger.info(f" ------- notify")
     # bot.send_message(chat_id=job.context, text='Alarm')
     today, tomorrow, day_after = _get_days()
-    delta_time_check = (datetime.datetime.utcnow() - datetime.timedelta(minutes = 45)).replace(tzinfo=pytz.utc)
     battle_events_today = BattleEvent.objects.filter(
         type=BattleEvent.EVENT_DEFENCE,
         territory__takeover_day=today,
@@ -120,9 +119,9 @@ def callback_alarm(bot, job):
     if battle_events_today.count():
         _msg = "Today's next Defence events (in about ~45 mins):"
         for battle_event in battle_events_today:
-            _msg += f"\n{battle_event.territory.takeover_time} - {battle_event.territory} {battle_event.alliance}"
+            _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
             for _notification in BattleScheduleNotification.objects.all():
-                logger.info(f" ------ {_notification.last_update} -- {delta_time_check} ")
+                delta_time_check = (battle_event.territory.takeover_time - datetime.timedelta(minutes = 45)).replace(tzinfo=pytz.utc)
                 if not _notification.initialized or _notification.last_update < delta_time_check:
                     # job.context.message.reply_text("hi")
                     # bot.sendMessage(_notification.chat_id, f'[{_notification.last_update}] hi')
