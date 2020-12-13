@@ -29,5 +29,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # url(r'^/?$', homepage, name='home'),
     url(r'^$', views.battle_schedule, name='battle_schedule'),
+    url(r'^', include('django_telegrambot.urls')),
     url(r"^account/", include("allauth.urls")),
 ]

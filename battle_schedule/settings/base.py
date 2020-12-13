@@ -26,6 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'r^li-ok%c&hf=^-5%c!pom5see)@v6acex^1s(k0c4z70ep6(l'
+SITE_ID = 1
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = ast.literal_eval(os.getenv('DEBUG', 'True'))
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_telegrambot',
     'crispy_forms',
 
     # login with external providers
