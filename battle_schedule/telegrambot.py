@@ -45,8 +45,8 @@ def help(bot, update):
 Commands available:\n\
 /help - Print help message\n\
 /today [d/c/lvl1]- Print the schedules for today, e.g.: /today d\n\
-/register - You will get notified ~45 mins before next event\n\
-/unregister - You will stop receiving notifications\n"
+/register - Get notified ~45 mins before next Defence event\n\
+/unregister - Stop receiving Defence notifications\n"
 
     if update.message.from_user.first_name is not None:
         if update.message.from_user.last_name is not None:
@@ -114,10 +114,11 @@ def callback_alarm(bot, job):
     today, tomorrow, day_after = _get_days()
     delta_time_check = (datetime.datetime.utcnow() - datetime.timedelta(minutes = 45)).replace(tzinfo=pytz.utc)
     battle_events_today = BattleEvent.objects.filter(
+        type=BattleEvent.EVENT_DEFENCE,
         territory__takeover_day=today,
         territory__takeover_time__hour=datetime.datetime.utcnow().hour + 1).order_by('territory__takeover_time')
     if battle_events_today.count():
-        _msg = "Today's next events (in about ~45 mins):"
+        _msg = "Today's next Defence events (in about ~45 mins):"
         for battle_event in battle_events_today:
             _msg += f"\n{battle_event.territory.takeover_time} - {battle_event.territory} {battle_event.alliance}"
             for _notification in BattleScheduleNotification.objects.all():
