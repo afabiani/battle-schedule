@@ -120,33 +120,40 @@ def all_captures(bot, update):
 
     _msg = "Lvl1 schedules are:"
 
-    _msg += "\n -- SUNDAY --\n"
-    for battle_event in battle_events_sunday:
-        _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
+    if battle_events_sunday.count():
+        _msg += "\n -- SUNDAY --"
+        for battle_event in battle_events_sunday:
+            _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
 
-    _msg += "\n -- MONDAY --\n"
-    for battle_event in battle_events_monday:
-        _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
+    if battle_events_monday.count():
+        _msg += "\n -- MONDAY --"
+        for battle_event in battle_events_monday:
+            _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
 
-    _msg += "\n -- TUESDAY --\n"
-    for battle_event in battle_events_tuesday:
-        _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
+    if battle_events_tuesday.count():
+        _msg += "\n -- TUESDAY --"
+        for battle_event in battle_events_tuesday:
+            _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
 
-    _msg += "\n -- WEDNESDAY --\n"
-    for battle_event in battle_events_wednesday:
-        _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
+    if battle_events_wednesday.count():
+        _msg += "\n -- WEDNESDAY --"
+        for battle_event in battle_events_wednesday:
+            _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
 
-    _msg += "\n -- THURSDAY --\n"
-    for battle_event in battle_events_thursday:
-        _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
+    if battle_events_thursday.count():
+        _msg += "\n -- THURSDAY --"
+        for battle_event in battle_events_thursday:
+            _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
 
-    _msg += "\n -- FRIDAY --\n"
-    for battle_event in battle_events_friday:
-        _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
+    if battle_events_friday.count():
+        _msg += "\n -- FRIDAY --"
+        for battle_event in battle_events_friday:
+            _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
 
-    _msg += "\n -- SATURDAY --\n"
-    for battle_event in battle_events_saturday:
-        _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
+    if battle_events_saturday.count():
+        _msg += "\n -- SATURDAY --"
+        for battle_event in battle_events_saturday:
+            _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
 
     bot.sendMessage(update.message.chat_id, _msg)
 
