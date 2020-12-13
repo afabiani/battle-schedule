@@ -44,7 +44,8 @@ def help(bot, update):
     wlcm_msg = "!\nWelcome to @BattleSchedule_bot.\n\
 Commands available:\n\
 /help - Print help message\n\
-/today [d/c/lvl1]- Print the schedules for today, e.g.: /today d\n\
+/today [d/c/lvl1] - Print the schedules for today, e.g.: /today d\n\
+/all_captures - Shows the lvl1 Captures for the whole week\n\
 /register - Get notified ~45 mins before next Defence event\n\
 /unregister - Stop receiving Defence notifications\n"
 
@@ -92,6 +93,67 @@ def today(bot, update):
         bot.sendMessage(update.message.chat_id, _msg)
     else:
         bot.sendMessage(update.message.chat_id, "No valid option, retry!")
+
+
+def all_captures(bot, update):
+    battle_events_sunday = BattleEvent.objects.filter(
+        type=BattleEvent.EVENT_LEVEL_1,
+        territory__takeover_day=1).order_by('territory__takeover_time')
+    battle_events_monday = BattleEvent.objects.filter(
+        type=BattleEvent.EVENT_LEVEL_1,
+        territory__takeover_day=2).order_by('territory__takeover_time')
+    battle_events_tuesday = BattleEvent.objects.filter(
+        type=BattleEvent.EVENT_LEVEL_1,
+        territory__takeover_day=3).order_by('territory__takeover_time')
+    battle_events_wednesday = BattleEvent.objects.filter(
+        type=BattleEvent.EVENT_LEVEL_1,
+        territory__takeover_day=4).order_by('territory__takeover_time')
+    battle_events_thursday = BattleEvent.objects.filter(
+        type=BattleEvent.EVENT_LEVEL_1,
+        territory__takeover_day=5).order_by('territory__takeover_time')
+    battle_events_friday = BattleEvent.objects.filter(
+        type=BattleEvent.EVENT_LEVEL_1,
+        territory__takeover_day=6).order_by('territory__takeover_time')
+    battle_events_saturday = BattleEvent.objects.filter(
+        type=BattleEvent.EVENT_LEVEL_1,
+        territory__takeover_day=7).order_by('territory__takeover_time')
+
+    _msg = "Lvl1 schedules are:"
+
+    _msg += "\n -- SUNDAY --\n"
+    for battle_event in battle_events_sunday:
+        _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
+    bot.sendMessage(update.message.chat_id, _msg)
+
+    _msg = "\n -- MONDAY --\n"
+    for battle_event in battle_events_monday:
+        _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
+    bot.sendMessage(update.message.chat_id, _msg)
+
+    _msg = "\n -- TUESDAY --\n"
+    for battle_event in battle_events_tuesday:
+        _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
+    bot.sendMessage(update.message.chat_id, _msg)
+
+    _msg = "\n -- WEDNESDAY --\n"
+    for battle_event in battle_events_wednesday:
+        _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
+    bot.sendMessage(update.message.chat_id, _msg)
+
+    _msg = "\n -- THURSDAY --\n"
+    for battle_event in battle_events_thursday:
+        _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
+    bot.sendMessage(update.message.chat_id, _msg)
+
+    _msg = "\n -- FRIDAY --\n"
+    for battle_event in battle_events_friday:
+        _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
+    bot.sendMessage(update.message.chat_id, _msg)
+
+    _msg = "\n -- SATURDAY --\n"
+    for battle_event in battle_events_saturday:
+        _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
+    bot.sendMessage(update.message.chat_id, _msg)
 
 
 def register(bot, update):
@@ -159,6 +221,7 @@ def main():
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("today", today))
+    dp.add_handler(CommandHandler("all_captures", all_captures))
 
     # manage automatic notifications
     dp.add_handler(CommandHandler("start_timer", callback_timer, pass_job_queue=True))
@@ -168,6 +231,3 @@ def main():
 
     # log all errors
     dp.add_error_handler(error)
-
-    # dp.start_polling()
-    # dp.idle()
