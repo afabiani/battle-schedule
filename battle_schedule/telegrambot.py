@@ -194,6 +194,8 @@ def callback_alarm(bot, job):
                     # bot.sendMessage(_notification.chat_id, f'[{_notification.last_update}] hi')
                     bot.sendMessage(_notification.chat_id, _msg)
                     _notification.initialized = True
+                    _notification.last_update = datetime.datetime.combine(
+                        datetime.datetime.utcnow(), battle_event.territory.takeover_time)
                     _notification.save()
 
 
