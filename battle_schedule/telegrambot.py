@@ -45,6 +45,7 @@ def help(bot, update):
 Commands available:\n\
 /help - Print help message\n\
 /today [d/c/lvl1] - Print the schedules for today, e.g.: /today d\n\
+/tomorrow [d/c/lvl1] - Print the schedules for tomorrow, e.g.: /tomorrow d\n\
 /all_captures - Shows the lvl1 Captures for the whole week\n\
 /register - Get notified ~45 mins before next Defence event\n\
 /unregister - Stop receiving Defence notifications\n"
@@ -58,41 +59,50 @@ Commands available:\n\
         bot.sendMessage(update.message.chat_id, "Hello, " + update.message.from_user.username + wlcm_msg)
 
 
-def today(bot, update):
-    text = update.message.text[len('/today')+1:]
-    today, tomorrow, day_after = _get_days()
+def _schedule_command(bot, update, day, cmd):
+    text = update.message.text[len(f'/{cmd}')+1:]
     if not text or 'd' == text.lower():
-        battle_events_today = BattleEvent.objects.filter(
-            territory__takeover_day=today, type=BattleEvent.EVENT_DEFENCE).order_by('territory__takeover_time')
-        if battle_events_today.count():
-            _msg = "Today Defence schedules are:"
-            for battle_event in battle_events_today:
+        battle_events = BattleEvent.objects.filter(
+            territory__takeover_day=day, type=BattleEvent.EVENT_DEFENCE).order_by('territory__takeover_time')
+        if battle_events.count():
+            _msg = f"{cmd} Defence schedules are:"
+            for battle_event in battle_events:
                 _msg += f"\n{battle_event.territory.takeover_time} - {battle_event.territory} {battle_event.alliance}"
         else:
-            _msg = "No Defence scheduled today!"
+            _msg = f"No Defence scheduled {cmd}!"
         bot.sendMessage(update.message.chat_id, _msg)
     elif 'c' == text.lower():
-        battle_events_today = BattleEvent.objects.filter(
-            territory__takeover_day=today, type=BattleEvent.EVENT_CAPTURE).order_by('territory__takeover_time')
-        if battle_events_today.count():
-            _msg = "Today Capture schedules are:"
-            for battle_event in battle_events_today:
+        battle_events = BattleEvent.objects.filter(
+            territory__takeover_day=day, type=BattleEvent.EVENT_CAPTURE).order_by('territory__takeover_time')
+        if battle_events.count():
+            _msg = f"{cmd} Capture schedules are:"
+            for battle_event in battle_events:
                 _msg += f"\n{battle_event.territory.takeover_time} - {battle_event.territory} {battle_event.alliance}"
         else:
-            _msg = "No Capture scheduled today!"
+            _msg = f"No Capture scheduled {cmd}!"
         bot.sendMessage(update.message.chat_id, _msg)
     elif 'lvl1' == text.lower():
-        battle_events_today = BattleEvent.objects.filter(
-            territory__takeover_day=today, type=BattleEvent.EVENT_LEVEL_1).order_by('territory__takeover_time')
-        if battle_events_today.count():
-            _msg = "Today Level1 schedules are:"
-            for battle_event in battle_events_today:
+        battle_events = BattleEvent.objects.filter(
+            territory__takeover_day=day, type=BattleEvent.EVENT_LEVEL_1).order_by('territory__takeover_time')
+        if battle_events.count():
+            _msg = f"{cmd} Level1 schedules are:"
+            for battle_event in battle_events:
                 _msg += f"\n{battle_event.territory.takeover_time} - {battle_event.territory} {battle_event.alliance}"
         else:
-            _msg = "No Level1 scheduled today!"
+            _msg = f"No Level1 scheduled {cmd}!"
         bot.sendMessage(update.message.chat_id, _msg)
     else:
         bot.sendMessage(update.message.chat_id, "No valid option, retry!")
+
+
+def today(bot, update):
+    today, tomorrow, day_after = _get_days()
+    _schedule_command(bot, update, today, "today")
+
+
+def tomorrow(bot, update):
+    today, tomorrow, day_after = _get_days()
+    _schedule_command(bot, update, tomorrow, "tomorrow")
 
 
 def all_captures(bot, update):
@@ -183,19 +193,24 @@ def callback_alarm(bot, job):
     if battle_events_today.count():
         _msg = "Today's next Defence events (in about ~45 mins):"
         for battle_event in battle_events_today:
+            delta_time_check = (
+                datetime.datetime.combine(
+                    datetime.datetime.utcnow(), battle_event.territory.takeover_time) - datetime.timedelta(minutes = 45)
+                ).replace(tzinfo=pytz.utc)
+            max_time_check = (
+                datetime.datetime.combine(
+                    datetime.datetime.utcnow(), battle_event.territory.takeover_time)
+                ).replace(tzinfo=pytz.utc)
+
             _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
             for _notification in BattleScheduleNotification.objects.all():
-                delta_time_check = (
-                    datetime.datetime.combine(
-                        datetime.datetime.utcnow(), battle_event.territory.takeover_time) - datetime.timedelta(minutes = 45)
-                    ).replace(tzinfo=pytz.utc)
-                if not _notification.initialized or _notification.last_update < delta_time_check:
+                if not _notification.initialized or \
+                (_notification.last_update >= delta_time_check and _notification.last_update < max_time_check):
                     # job.context.message.reply_text("hi")
                     # bot.sendMessage(_notification.chat_id, f'[{_notification.last_update}] hi')
                     bot.sendMessage(_notification.chat_id, _msg)
                     _notification.initialized = True
-                    _notification.last_update = datetime.datetime.combine(
-                        datetime.datetime.utcnow(), battle_event.territory.takeover_time)
+                    _notification.last_update = max_time_check
                     _notification.save()
 
 
@@ -228,6 +243,7 @@ def main():
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("today", today))
+    dp.add_handler(CommandHandler("tomorrow", tomorrow))
     dp.add_handler(CommandHandler("all_captures", all_captures))
 
     # manage automatic notifications
