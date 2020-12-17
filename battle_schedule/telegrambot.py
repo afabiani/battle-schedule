@@ -201,11 +201,12 @@ def callback_alarm(bot, job):
                 datetime.datetime.combine(
                     datetime.datetime.utcnow(), battle_event.territory.takeover_time)
                 ).replace(tzinfo=pytz.utc)
-
+            logger.info(f" -- Notify {battle_event} @{delta_time_check} - {max_time_check}")
             _msg += f"\n{battle_event.territory.takeover_time} - [{battle_event.type}] {battle_event.territory} {battle_event.alliance}"
             for _notification in BattleScheduleNotification.objects.all():
+                logger.info(f" .... checking for notification {_notification.last_update}")
                 if not _notification.initialized or \
-                (_notification.last_update >= delta_time_check and _notification.last_update < max_time_check):
+                (datetime.datetime.utcnow().replace(tzinfo=pytz.utc) >= delta_time_check and _notification.last_update < max_time_check):
                     # job.context.message.reply_text("hi")
                     # bot.sendMessage(_notification.chat_id, f'[{_notification.last_update}] hi')
                     bot.sendMessage(_notification.chat_id, _msg)
@@ -217,7 +218,7 @@ def callback_alarm(bot, job):
 def callback_timer(bot, update, job_queue):
     bot.send_message(chat_id=update.message.chat_id,
                      text='Starting!')
-    job_queue.run_repeating(callback_alarm, 5, context=update.message.chat_id)
+    job_queue.run_repeating(callback_alarm, 60, context=update.message.chat_id)
 
 
 def stop_timer(bot, update, job_queue):
