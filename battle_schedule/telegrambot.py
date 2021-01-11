@@ -209,7 +209,10 @@ def callback_alarm(bot, job):
                 (datetime.datetime.utcnow().replace(tzinfo=pytz.utc) >= delta_time_check and _notification.last_update < max_time_check):
                     # job.context.message.reply_text("hi")
                     # bot.sendMessage(_notification.chat_id, f'[{_notification.last_update}] hi')
-                    bot.sendMessage(_notification.chat_id, _msg)
+                    try:
+                        bot.sendMessage(_notification.chat_id, _msg)
+                    except Exception:
+                        pass
                     _notification.initialized = True
                     _notification.last_update = max_time_check
                     _notification.save()
