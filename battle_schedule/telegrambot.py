@@ -24,11 +24,11 @@ logger = logging.getLogger(__name__)
 
 def _get_days():
     today = (datetime.datetime.today().weekday() + 2) % 7
-    tomorrow = (today + 1) % 7
-    if tomorrow == 0:
+    tomorrow = today + 1
+    if tomorrow in (0, 8):
         tomorrow = 1
-    day_after = (today + 2) % 7
-    if day_after == 0:
+    day_after = today + 2
+    if day_after in (0, 8):
         day_after = 1
     today = 7 if today == 0 else today
     return (today, tomorrow, day_after)
