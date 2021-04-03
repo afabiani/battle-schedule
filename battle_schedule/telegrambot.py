@@ -183,19 +183,20 @@ To start receiving notifications again, run the command /register"
 
 
 def callback_alarm(bot, job):
+    T_OFFSET = 1
     # logger.info(f" ------- notify")
     # bot.send_message(chat_id=job.context, text='Alarm')
     today, tomorrow, day_after = _get_days()
     battle_events_today = BattleEvent.objects.filter(
         type=BattleEvent.EVENT_DEFENCE,
         territory__takeover_day=today,
-        territory__takeover_time__hour=datetime.datetime.utcnow().hour + 1).order_by('territory__takeover_time')
+        territory__takeover_time__hour=datetime.datetime.utcnow().hour + 1 + T_OFFSET).order_by('territory__takeover_time')
     if battle_events_today.count():
         _msg = "Today's next Defence events (in about ~45 mins):"
         for battle_event in battle_events_today:
             delta_time_check = (
                 datetime.datetime.combine(
-                    datetime.datetime.utcnow(), battle_event.territory.takeover_time) - datetime.timedelta(minutes = 45)
+                    datetime.datetime.utcnow(), battle_event.territory.takeover_time) - datetime.timedelta(minutes=45)
                 ).replace(tzinfo=pytz.utc)
             max_time_check = (
                 datetime.datetime.combine(
@@ -206,7 +207,8 @@ def callback_alarm(bot, job):
             for _notification in BattleScheduleNotification.objects.all():
                 logger.info(f" .... checking for notification {_notification.last_update}")
                 if not _notification.initialized or \
-                (datetime.datetime.utcnow().replace(tzinfo=pytz.utc) >= delta_time_check and _notification.last_update < max_time_check):
+                ((datetime.datetime.utcnow().replace(tzinfo=pytz.utc) + datetime.timedelta(hours=T_OFFSET)) >= delta_time_check and
+                 _notification.last_update < max_time_check):
                     # job.context.message.reply_text("hi")
                     # bot.sendMessage(_notification.chat_id, f'[{_notification.last_update}] hi')
                     try:
